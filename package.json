@@ -1,6 +1,6 @@
 {
   "name": "browser-router",
-  "productName": "browser-router",
+  "productName": "Browser Router",
   "version": "1.0.0",
   "description": "Opens a specific browser based on rules for Mac OS",
   "main": "src/index.js",
@@ -41,7 +41,9 @@
     }
   },
   "dependencies": {
-    "electron-compile": "^6.4.3"
+    "electron-compile": "^6.4.3",
+    "jsonpath": "^1.0.0",
+    "xml2js": "^0.4.19"
   },
   "devDependencies": {
     "babel-plugin-transform-async-to-generator": "^6.24.1",

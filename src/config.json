@@ -1,0 +1,13 @@
+{
+  "default": "firefox",
+  "rules": [
+    {
+      "url": "\\.google\\.[^\\/]+",
+      "browser": "chrome"
+    },
+    {
+      "url": "//localhost",
+      "browser": "chrome-canary"
+    }
+  ]
+}

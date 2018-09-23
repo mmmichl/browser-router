@@ -1,4 +1,6 @@
 import { app, BrowserWindow } from 'electron';
+import { spawn } from 'child_process';
+import listBrowser, { determineBrowser } from './browser';
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -29,8 +31,20 @@ const createWindow = () => {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', () => {
-  app.setAsDefaultProtocolClient('http')
+app.on('ready', async () => {
+  app.setAsDefaultProtocolClient('http');
+
+  if (process.argv.find(e => e === '-l')) {
+    const foundBrowser = await listBrowser();
+    console.log('Following browsers were found on this system:');
+    console.log(foundBrowser.map(b => ` ${b.key}`)
+    .join('\n'));
+
+    app.quit();
+  }
+
+  // if the application was not started with the intention to open a url, quit after one second
+  // setTimeout(1000, () => app.quit());
 });
 
 /**
@@ -41,9 +55,17 @@ app.on('ready', () => {
  * @param {string} url
  */
 app.on('open-url', (event, url) => {
-  // event.preventDefault()
-  console.log('open-url', url);
-})
+  event.preventDefault();
+
+  const browser = determineBrowser(url);
+
+  spawn('sh', [
+    '-c',
+    `open ${url} -a "${browser}"`,
+  ]);
+
+  app.quit();
+});
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
