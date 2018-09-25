@@ -6,6 +6,10 @@
       "browser": "chrome"
     },
     {
+      "url": "www\\.coursera\\.org",
+      "browser": "chrome"
+    },
+    {
       "url": "//localhost",
       "browser": "chrome-canary"
     }

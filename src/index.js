@@ -6,6 +6,10 @@ import listBrowser, { determineBrowser } from './browser';
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
+
+// Hide dock icon. Also prevents Browserosaurus from appearing in cmd-tab.
+app.dock.hide();
+
 const createWindow = () => {
   // Create the browser window.
   mainWindow = new BrowserWindow({
@@ -83,6 +87,3 @@ app.on('activate', () => {
     createWindow();
   }
 });
-
-// Hide dock icon. Also prevents Browserosaurus from appearing in cmd-tab.
-app.dock.hide();

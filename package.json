@@ -1,7 +1,7 @@
 {
   "name": "browser-router",
   "productName": "Browser Router",
-  "version": "1.0.0",
+  "version": "0.5.0",
   "description": "Opens a specific browser based on rules for Mac OS",
   "main": "src/index.js",
   "scripts": {
