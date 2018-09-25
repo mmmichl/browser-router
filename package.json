@@ -22,12 +22,12 @@
   "config": {
     "forge": {
       "make_targets": {
-        "darwin": [
-          "zip"
-        ]
+        "darwin": ["dmg"]
       },
       "electronPackagerConfig": {
-        "packageManager": "yarn"
+        "packageManager": "yarn",
+        "icon": "icons/browser-router.icns",
+        "ignore": [".idea"]
       },
       "protocols": [
         {

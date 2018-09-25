@@ -44,7 +44,7 @@ app.on('ready', async () => {
   }
 
   // if the application was not started with the intention to open a url, quit after one second
-  // setTimeout(1000, () => app.quit());
+  setTimeout(() => app.quit(), 1000);
 });
 
 /**
@@ -84,5 +84,5 @@ app.on('activate', () => {
   }
 });
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and import them here.
+// Hide dock icon. Also prevents Browserosaurus from appearing in cmd-tab.
+app.dock.hide();
