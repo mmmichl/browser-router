@@ -16,6 +16,10 @@ export default [
     osName: 'Firefox',
   },
   {
+    key: 'opera',
+    osName: 'Opera',
+  },
+  {
     key: 'safari',
     osName: 'Safari',
   },

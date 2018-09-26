@@ -8,7 +8,9 @@
     "start": "ENV=DEV electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "prepublish": "yarn run lint",
+    "publish": "electron-forge publish --auth-token=$GITHUB_TOKEN"
   },
   "keywords": [
     "Electron",
@@ -22,12 +24,20 @@
   "config": {
     "forge": {
       "make_targets": {
-        "darwin": ["dmg"]
+        "darwin": [
+          "dmg"
+        ]
       },
       "electronPackagerConfig": {
         "packageManager": "yarn",
         "icon": "icons/browser-router.icns",
-        "ignore": [".idea"]
+        "ignore": [
+          ".idea"
+        ]
+      },
+      "github_repository": {
+        "owner": "mmmichl",
+        "name": "browser-router"
       },
       "protocols": [
         {
