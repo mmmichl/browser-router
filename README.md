@@ -8,10 +8,10 @@ This macOS appication is open-source and based on Electron.
 
 ## Installation
 
-TBA
+Pick the latest [release](https://github.com/mmmichl/browser-router/releases) and install the package. 
 
-After installation you need to run `Browser Router` once manually. You will be prompted if the application should be 
-registered as default browser. Confirm this to start using `Browser Router`.
+After installation you need to run `Browser Router` once manually. You will be asked if the application should be 
+registered as the default browser. Confirm this to start using `Browser Router`.
 
 ## Configuration
 

@@ -51,7 +51,32 @@ function getOsBrowserName(name) {
   return null;
 }
 
+
+/**
+ * Cleans up unnecessary parts from the url. E.g. redirect notices as this might trigger
+ * wrong rules
+ * @param {string} url
+ * @returns {void | string | *}
+ */
+export function getCleanUrl(url) {
+  let cleanedUrl = url;
+
+  // remove google url redirects
+  if (cleanedUrl.startsWith('https://www.google.com/url?')) {
+    // eslint-disable-next-line no-undef
+    const decodedUrl = new URL(cleanedUrl);
+    cleanedUrl = decodedUrl.searchParams.get('q') || cleanedUrl;
+  }
+
+  return cleanedUrl;
+}
+
+
 export function determineBrowser(url) {
+  // clean up urls, e.g. remove url tracking part from google to no trigger any rule containing
+  // the google domain
+  const cleanUrl = getCleanUrl(url);
+
   if (config.rules) {
     // eslint-disable-next-line no-restricted-syntax
     for (const rule of config.rules) {
@@ -62,7 +87,7 @@ export function determineBrowser(url) {
         continue;
       }
 
-      if (new RegExp(rule.url).test(url)) {
+      if (new RegExp(rule.url).test(cleanUrl)) {
         const osBrowserName = getOsBrowserName(rule.browser);
         if (!osBrowserName) {
           // eslint-disable-next-line no-console

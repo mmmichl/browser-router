@@ -1,6 +1,6 @@
 import { app, BrowserWindow } from 'electron';
 import { spawn } from 'child_process';
-import listBrowser, { determineBrowser } from './browser';
+import listBrowser, { determineBrowser, getCleanUrl } from './browser';
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -65,7 +65,7 @@ app.on('open-url', (event, url) => {
 
   spawn('sh', [
     '-c',
-    `open ${url} -a "${browser}"`,
+    `open ${getCleanUrl(url)} -a "${browser}"`,
   ]);
 
   app.quit();

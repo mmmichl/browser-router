@@ -1,7 +1,7 @@
 {
   "name": "browser-router",
   "productName": "Browser Router",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Opens a specific browser based on rules for Mac OS",
   "main": "src/index.js",
   "scripts": {
@@ -10,7 +10,7 @@
     "make": "electron-forge make",
     "lint": "eslint src",
     "prepublish": "yarn run lint",
-    "publish": "electron-forge publish --auth-token=$GITHUB_TOKEN"
+    "publish": "electron-forge publish"
   },
   "keywords": [
     "Electron",
@@ -37,7 +37,8 @@
       },
       "github_repository": {
         "owner": "mmmichl",
-        "name": "browser-router"
+        "name": "browser-router",
+        "draft": false
       },
       "protocols": [
         {
