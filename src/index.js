@@ -1,11 +1,16 @@
 import { app, BrowserWindow } from 'electron';
 import { spawn } from 'child_process';
-import listBrowser, { determineBrowser, getCleanUrl } from './browser';
+import { transports, info, warn, error } from 'electron-log';
+import { listBrowser, determineBrowser, getCleanUrl } from './browser';
+import config from './config';
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
+if (config.debug) {
+  transports.file.level = 'info';
+}
 
 // Hide dock icon. Also prevents Browserosaurus from appearing in cmd-tab.
 app.dock.hide();
@@ -39,16 +44,18 @@ app.on('ready', async () => {
   app.setAsDefaultProtocolClient('http');
 
   if (process.argv.find(e => e === '-l')) {
-    const foundBrowser = await listBrowser();
-    console.log('Following browsers were found on this system:');
-    console.log(foundBrowser.map(b => ` ${b.key}`)
-    .join('\n'));
-
+    try {
+      const foundBrowser = await listBrowser();
+      warn('Following browsers were found on this system:');
+      warn(foundBrowser.map(b => ` ${b.key}`).join('\n'));
+    } catch (e) {
+      error('error fetching browsers', e);
+    }
     app.quit();
   }
 
   // if the application was not started with the intention to open a url, quit after one second
-  setTimeout(() => app.quit(), 1000);
+  setTimeout(() => app.quit(), 3000);
 });
 
 /**
@@ -62,10 +69,13 @@ app.on('open-url', (event, url) => {
   event.preventDefault();
 
   const browser = determineBrowser(url);
+  const cleanUrl = getCleanUrl(url);
+
+  info('open browser', browser, 'with URL', cleanUrl);
 
   spawn('sh', [
     '-c',
-    `open ${getCleanUrl(url)} -a "${browser}"`,
+    `open ${cleanUrl} -a "${browser}"`,
   ]);
 
   app.quit();

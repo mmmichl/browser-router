@@ -1,8 +1,21 @@
 {
   "default": "firefox",
+  "debug": false,
   "rules": [
     {
       "url": "\\.google\\.[^\\/]+",
+      "browser": "chrome"
+    },
+    {
+      "url": "goo\\.gl",
+      "browser": "chrome"
+    },
+    {
+      "url": "youtube\\.com",
+      "browser": "chrome"
+    },
+    {
+      "url": "youtu\\.be",
       "browser": "chrome"
     },
     {

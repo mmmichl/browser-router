@@ -1,7 +1,7 @@
 {
   "name": "browser-router",
   "productName": "Browser Router",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "Opens a specific browser based on rules for Mac OS",
   "main": "src/index.js",
   "scripts": {
@@ -53,6 +53,7 @@
   },
   "dependencies": {
     "electron-compile": "^6.4.3",
+    "electron-log": "^2.2.17",
     "jsonpath": "^1.0.0",
     "xml2js": "^0.4.19"
   },

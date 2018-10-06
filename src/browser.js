@@ -1,13 +1,14 @@
 import { spawn } from 'child_process';
 import { parseString } from 'xml2js';
 import jp from 'jsonpath';
+import { error, warn } from 'electron-log';
 import knownBrowsers from './knownBrowsers';
 import config from './config';
 
 /**
  * Lists all installed and known browser
  */
-export function browser() {
+export function listBrowser() {
   return new Promise((resolve, reject) => {
     const sp = spawn('system_profiler', ['-xml', 'SPApplicationsDataType']);
 
@@ -18,14 +19,13 @@ export function browser() {
       profile += data;
     });
     sp.stderr.on('data', (data) => {
-      // eslint-disable-next-line no-console
-      console.log(`stderr: ${data}`);
+      error(`stderr from system_profiler: ${data}`);
       reject(data);
     });
     sp.stdout.on('end', () => {
       parseString(profile, (err, result) => {
         if (err) {
-          console.error('error parsing XML:', err);
+          error('error parsing XML:', err);
           reject(err);
         }
         const installedApps = jp.query(
@@ -81,8 +81,7 @@ export function determineBrowser(url) {
     // eslint-disable-next-line no-restricted-syntax
     for (const rule of config.rules) {
       if (!rule.url || !rule.browser) {
-        // eslint-disable-next-line no-console
-        console.warn('Incomplete rule, ignoring', rule);
+        warn('Incomplete rule, ignoring', rule);
         // eslint-disable-next-line no-continue
         continue;
       }
@@ -90,8 +89,7 @@ export function determineBrowser(url) {
       if (new RegExp(rule.url).test(cleanUrl)) {
         const osBrowserName = getOsBrowserName(rule.browser);
         if (!osBrowserName) {
-          // eslint-disable-next-line no-console
-          console.warn('Browser of rule is not known:', rule);
+          warn('Browser of rule is not known:', rule);
         } else {
           return osBrowserName;
         }
