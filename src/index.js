@@ -1,6 +1,6 @@
 import { app, BrowserWindow } from 'electron';
 import { spawn } from 'child_process';
-import { transports, info, warn, error } from 'electron-log';
+import { transports, info, warn, error, verbose } from 'electron-log';
 import { listBrowser, determineBrowser, getCleanUrl } from './browser';
 import config from './config';
 
@@ -66,6 +66,7 @@ app.on('ready', async () => {
  * @param {string} url
  */
 app.on('open-url', (event, url) => {
+  verbose('open-url, not sanitized', url);
   event.preventDefault();
 
   const browser = determineBrowser(url);
@@ -73,12 +74,17 @@ app.on('open-url', (event, url) => {
 
   info('open browser', browser, 'with URL', cleanUrl);
 
-  spawn('sh', [
-    '-c',
-    `open ${cleanUrl} -a "${browser}"`,
+  // spawn('sh', [
+  //   '-c',
+  //   `open ${cleanUrl} -a "${browser}"`,
+  // ]);
+  spawn('open', [
+    cleanUrl,
+    '-a',
+    browser,
   ]);
 
-  app.quit();
+  setTimeout(() => app.quit(), 100);
 });
 
 // Quit when all windows are closed.
