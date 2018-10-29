@@ -8,6 +8,8 @@ import config from './config';
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
+// transports.file.level = 'verbose';
+
 if (config.debug) {
   transports.file.level = 'info';
 }
@@ -58,14 +60,11 @@ app.on('ready', async () => {
   setTimeout(() => app.quit(), 3000);
 });
 
+
 /**
- * Event: Open URL
- *
- * When a URL is sent to Browserosaurus (as it is default browser), send it to
- * the picker.
- * @param {string} url
+ * Processes the interpretation of the URL and opening the right browser
  */
-app.on('open-url', (event, url) => {
+function processOpen(url, event) {
   verbose('open-url, not sanitized', url);
   event.preventDefault();
 
@@ -85,6 +84,21 @@ app.on('open-url', (event, url) => {
   ]);
 
   setTimeout(() => app.quit(), 100);
+}
+
+/**
+ * Event: Open URL
+ *
+ * When a URL is sent to Browserosaurus (as it is default browser), send it to
+ * the picker.
+ * @param {string} url
+ */
+app.on('open-url', (event, url) => {
+  processOpen(url, event);
+});
+
+app.on('open-file', (event, path) => {
+  processOpen(path, event);
 });
 
 // Quit when all windows are closed.
